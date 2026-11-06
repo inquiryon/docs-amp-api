@@ -3965,7 +3965,10 @@ paths:
   /api/rlhf/outcome:
     post:
       summary: RLHF Submit Outcome
-      description: Submit RLHF approval outcome to HITL agent (internal wiring).
+      description: 'Submit RLHF approval outcome to HITL agent (internal wiring).
+        org_id is required; the caller must be a superadmin or an active member of
+        that org (403 otherwise). The recorded reviewer is always the authenticated
+        caller -- human.user_id in the body is ignored.'
       operationId: post_rlhf_submit_outcome_api_rlhf_outcome
       tags:
       - RLHF
@@ -3976,6 +3979,8 @@ paths:
           description: Bad request
         '401':
           description: Unauthorized
+        '403':
+          description: Caller is not a member of org_id
         '500':
           description: Server error
       x-source:
